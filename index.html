@@ -9,6 +9,7 @@
         .score-table { margin-top: 20px; }
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        .score-button { width: 30px; }
     </style>
 </head>
 <body>
@@ -45,12 +46,36 @@
                     for (let i = 1; i <= 18; i++) {
                         document.write(`<tr>
                             <td>${i}</td>
-                            <td><input type="number" class="score" data-hole="${i}" data-player="1"></td>
-                            <td><input type="number" class="score" data-hole="${i}" data-player="2"></td>
-                            <td><input type="number" class="score" data-hole="${i}" data-player="3"></td>
-                            <td><input type="number" class="score" data-hole="${i}" data-player="4"></td>
-                            <td><input type="number" class="score" data-hole="${i}" data-player="5"></td>
-                            <td><input type="number" class="score" data-hole="${i}" data-player="6"></td>
+                            <td>
+                                <button class="score-button" data-hole="${i}" data-player="1" onclick="updateScore(this, -1)">-1</button>
+                                <span class="score-display" data-hole="${i}" data-player="1">0</span>
+                                <button class="score-button" data-hole="${i}" data-player="1" onclick="updateScore(this, 1)">+1</button>
+                            </td>
+                            <td>
+                                <button class="score-button" data-hole="${i}" data-player="2" onclick="updateScore(this, -1)">-1</button>
+                                <span class="score-display" data-hole="${i}" data-player="2">0</span>
+                                <button class="score-button" data-hole="${i}" data-player="2" onclick="updateScore(this, 1)">+1</button>
+                            </td>
+                            <td>
+                                <button class="score-button" data-hole="${i}" data-player="3" onclick="updateScore(this, -1)">-1</button>
+                                <span class="score-display" data-hole="${i}" data-player="3">0</span>
+                                <button class="score-button" data-hole="${i}" data-player="3" onclick="updateScore(this, 1)">+1</button>
+                            </td>
+                            <td>
+                                <button class="score-button" data-hole="${i}" data-player="4" onclick="updateScore(this, -1)">-1</button>
+                                <span class="score-display" data-hole="${i}" data-player="4">0</span>
+                                <button class="score-button" data-hole="${i}" data-player="4" onclick="updateScore(this, 1)">+1</button>
+                            </td>
+                            <td>
+                                <button class="score-button" data-hole="${i}" data-player="5" onclick="updateScore(this, -1)">-1</button>
+                                <span class="score-display" data-hole="${i}" data-player="5">0</span>
+                                <button class="score-button" data-hole="${i}" data-player="5" onclick="updateScore(this, 1)">+1</button>
+                            </td>
+                            <td>
+                                <button class="score-button" data-hole="${i}" data-player="6" onclick="updateScore(this, -1)">-1</button>
+                                <span class="score-display" data-hole="${i}" data-player="6">0</span>
+                                <button class="score-button" data-hole="${i}" data-player="6" onclick="updateScore(this, 1)">+1</button>
+                            </td>
                         </tr>`);
                     }
                 </script>
