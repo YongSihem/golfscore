@@ -44,32 +44,41 @@ function saveScores() {
 
 // 결과 업데이트 함수
 function updateResults() {
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = ''; // 이전 결과 초기화
+    const firstHalfResultsTable = document.getElementById('first-half-results');
+    const secondHalfResultsTable = document.getElementById('second-half-results');
+    const totalResultsTable = document.getElementById('total-results');
+
+    // 테이블 초기화
+    firstHalfResultsTable.innerHTML = '';
+    secondHalfResultsTable.innerHTML = '';
+    totalResultsTable.innerHTML = '';
 
     // 9홀 중간 집계
-    const firstHalfResults = players.map(player => {
+    let firstHalfHeader = `<tr><th>플레이어</th><th>점수</th><th>상세</th></tr>`;
+    firstHalfResultsTable.innerHTML += firstHalfHeader;
+    players.forEach(player => {
         const totalScore = player.scores.slice(0, 9).reduce((acc, score) => acc + score, 0);
-        return `${player.name}: ${totalScore}타 (1~9홀: ${player.scores.slice(0, 9).join(', ')})`;
+        const details = player.scores.slice(0, 9).join(', ');
+        firstHalfResultsTable.innerHTML += `<tr><td>${player.name}</td><td>${totalScore}</td><td>${details}</td></tr>`;
     });
-
-    resultsDiv.innerHTML += `<h3>1~9홀 중간 집계</h3><p>${firstHalfResults.join('</p><p>')}</p>`;
 
     // 18홀 결과 표시
-    const secondHalfResults = players.map(player => {
+    let secondHalfHeader = `<tr><th>플레이어</th><th>점수</th><th>상세</th></tr>`;
+    secondHalfResultsTable.innerHTML += secondHalfHeader;
+    players.forEach(player => {
         const totalScore = player.scores.slice(9, 18).reduce((acc, score) => acc + score, 0);
-        return `${player.name}: ${totalScore}타 (10~18홀: ${player.scores.slice(9, 18).join(', ')})`;
+        const details = player.scores.slice(9, 18).join(', ');
+        secondHalfResultsTable.innerHTML += `<tr><td>${player.name}</td><td>${totalScore}</td><td>${details}</td></tr>`;
     });
-
-    resultsDiv.innerHTML += `<h3>10~18홀 결과</h3><p>${secondHalfResults.join('</p><p>')}</p>`;
 
     // 총합 결과 표시
-    const totalResults = players.map(player => {
+    let totalHeader = `<tr><th>플레이어</th><th>총합 점수</th><th>상세</th></tr>`;
+    totalResultsTable.innerHTML += totalHeader;
+    players.forEach(player => {
         const totalScore = player.scores.reduce((acc, score) => acc + score, 0) + 72; // 최종 점수 계산
-        return `${player.name}: ${totalScore}타 (총합: ${player.scores.reduce((acc, score) => acc + score, 0)}타)`;
+        const details = player.scores.reduce((acc, score) => acc + score, 0);
+        totalResultsTable.innerHTML += `<tr><td>${player.name}</td><td>${totalScore}</td><td>${details}</td></tr>`;
     });
-
-    resultsDiv.innerHTML += `<h3>총합 결과</h3><p>${totalResults.join('</p><p>')}</p>`;
 }
 
 // 결과 버튼 클릭 시 결과 업데이트
