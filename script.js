@@ -1,3 +1,5 @@
+const API_URL = 'https://yongsihem.github.io/golfscore/scores';
+
 const players = [
     { name: "박두호", scores: Array(18).fill(0) },
     { name: "민경호", scores: Array(18).fill(0) },
