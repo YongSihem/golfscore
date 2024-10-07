@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>골프 스코어 집계</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .score-table { margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>골프 스코어 입력</h1>
+    
+    <div id="players">
+        <!-- 플레이어 이름 입력 필드 -->
+        <h2>플레이어 이름 입력</h2>
+        <input type="text" placeholder="플레이어 1 이름" id="player1">
+        <input type="text" placeholder="플레이어 2 이름" id="player2">
+        <input type="text" placeholder="플레이어 3 이름" id="player3">
+        <input type="text" placeholder="플레이어 4 이름" id="player4">
+        <input type="text" placeholder="플레이어 5 이름" id="player5">
+        <input type="text" placeholder="플레이어 6 이름" id="player6">
+    </div>
+
+    <div id="score-input">
+        <h2>스코어 입력</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>홀</th>
+                    <th id="player1Header"></th>
+                    <th id="player2Header"></th>
+                    <th id="player3Header"></th>
+                    <th id="player4Header"></th>
+                    <th id="player5Header"></th>
+                    <th id="player6Header"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 18홀 스코어 입력 필드 -->
+                <script>
+                    for (let i = 1; i <= 18; i++) {
+                        document.write(`<tr>
+                            <td>${i}</td>
+                            <td><input type="number" class="score" data-hole="${i}" data-player="1"></td>
+                            <td><input type="number" class="score" data-hole="${i}" data-player="2"></td>
+                            <td><input type="number" class="score" data-hole="${i}" data-player="3"></td>
+                            <td><input type="number" class="score" data-hole="${i}" data-player="4"></td>
+                            <td><input type="number" class="score" data-hole="${i}" data-player="5"></td>
+                            <td><input type="number" class="score" data-hole="${i}" data-player="6"></td>
+                        </tr>`);
+                    }
+                </script>
+            </tbody>
+        </table>
+    </div>
+
+    <button id="submit">제출</button>
+    <h2>결과</h2>
+    <div id="results"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
