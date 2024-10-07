@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>골프 스코어 집계</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        .score-button { width: 30px; }
+        #results { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>골프 스코어 입력</h1>
+
+    <div id="score-input">
+        <h2>스코어 입력</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>홀</th>
+                    <th>박두호</th>
+                    <th>민경호</th>
+                    <th>박병춘</th>
+                    <th>양태욱</th>
+                    <th>김재형</th>
+                    <th>전용선</th>
+                </tr>
+            </thead>
+            <tbody>
+                <script>
+                    for (let i = 1; i <= 18; i++) {
+                        document.write(`<tr>
+                            <td>${i}홀 <button id="save-scores">저장하기</button></td>
+                            <td>
+                                <button class="score-button" data-hole="${i}" data-player="0" onclick="updateScore(this, -1)">-1</button>
+                                <span class="score-display" data-hole="${i}" data-player="0">0</span>
+                                <button class="score-button" data-hole="${i}" data-player="0" onclick="updateScore(this, 1)">+1</button>
+                            </td>
+                            <td>
+                                <button class="score-button" data-hole="${i}" data-player="1" onclick="updateScore(this, -1)">-1</button>
+                                <span class="score-display" data-hole="${i}" data-player="1">0</span>
+                                <button class="score-button" data-hole="${i}" data-player="1" onclick="updateScore(this, 1)">+1</button>
+                            </td>
+                            <td>
+                                <button class="score-button" data-hole="${i}" data-player="2" onclick="updateScore(this, -1)">-1</button>
+                                <span class="score-display" data-hole="${i}" data-player="2">0</span>
+                                <button class="score-button" data-hole="${i}" data-player="2" onclick="updateScore(this, 1)">+1</button>
+                            </td>
+                            <td>
+                                <button class="score-button" data-hole="${i}" data-player="3" onclick="updateScore(this, -1)">-1</button>
+                                <span class="score-display" data-hole="${i}" data-player="3">0</span>
+                                <button class="score-button" data-hole="${i}" data-player="3" onclick="updateScore(this, 1)">+1</button>
+                            </td>
+                            <td>
+                                <button class="score-button" data-hole="${i}" data-player="4" onclick="updateScore(this, -1)">-1</button>
+                                <span class="score-display" data-hole="${i}" data-player="4">0</span>
+                                <button class="score-button" data-hole="${i}" data-player="4" onclick="updateScore(this, 1)">+1</button>
+                            </td>
+                            <td>
+                                <button class="score-button" data-hole="${i}" data-player="5" onclick="updateScore(this, -1)">-1</button>
+                                <span class="score-display" data-hole="${i}" data-player="5">0</span>
+                                <button class="score-button" data-hole="${i}" data-player="5" onclick="updateScore(this, 1)">+1</button>
+                            </td>
+                        </tr>`);
+                    }
+                </script>
+            </tbody>
+        </table>
+    </div>
+
+    <button id="show-results">결과 보기</button>
+    <h2>중간 집계 및 결과</h2>
+    <div id="results">
+        <h3>1~9홀 중간 집계</h3>
+        <table id="first-half-results"></table>
+        <h3>10~18홀 결과</h3>
+        <table id="second-half-results"></table>
+        <h3>총합 결과</h3>
+        <table id="total-results"></table>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const API_URL = 'http://localhost:5000/api/scores'; // 서버 URL
+
+        // 점수 저장 함수
+        async function saveScores() {
+            const scores = players.map(player => player.scores);
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ players: scores })
+            });
+            return response.json();
+        }
+
+        // 점수 불러오기 함수
+        async function loadScores() {
+            const response = await fetch(API_URL);
+            const scores = await response.json();
+            return scores;
+        }
+
+        // 페이지 로드 시 점수 복원
+        document.addEventListener('DOMContentLoaded', async () => {
+            const storedScores = await loadScores();
+            if (storedScores.length > 0) {
+                // 가장 최근의 점수만 로드
+                const latestScores = storedScores[storedScores.length - 1].players;
+                players.forEach((player, index) => {
+                    player.scores = latestScores[index];
+                    for (let i = 0; i < player.scores.length; i++) {
+                        document.querySelector(`.score-display[data-hole="${i + 1}"][data-player="${index}"]`).textContent = player.scores[i];
+                    }
+                });
+            }
+        });
+
+        // 점수 업데이트 함수
+        function updateScore(button, change) {
+            const hole = button.dataset.hole;
+            const player = button.dataset.player;
+            const scoreDisplay = document.querySelector(`.score-display[data-hole="${hole}"][data-player="${player}"]`);
+
+            // 현재 스코어 가져오기
+            let currentScore = parseInt(scoreDisplay.textContent);
+            currentScore += change;
+
+            // 업데이트된 스코어 표시
+            scoreDisplay.textContent = currentScore;
+
+            // 점수 저장
+            saveScores();
+        }
+
+        // 결과 업데이트 함수
+        function updateResults() {
+            const firstHalfResultsTable = document.getElementById('first-half-results');
+            const secondHalfResultsTable = document.getElementById('second-half-results');
+            const totalResultsTable = document.getElementById('total-results');
+
+            // 테이블 초기화
+            firstHalfResultsTable.innerHTML = '';
+            secondHalfResultsTable.innerHTML = '';
+            totalResultsTable.innerHTML = '';
+
+            // 9홀 중간 집계
+            let firstHalfHeader = `<tr><th>플레이어</th><th>점수</th><th>상세</th></tr>`;
+            firstHalfResultsTable.innerHTML += firstHalfHeader;
+            players.forEach(player => {
+                const totalScore = player.scores.slice(0, 9).reduce((acc, score) => acc + score, 0);
+                const details = player.scores.slice(0, 9).join(', ');
+                firstHalfResultsTable.innerHTML += `<tr><td>${player.name}</td><td>${totalScore}</td><td>${details}</td></tr>`;
+            });
+
+            // 18홀 결과 표시
+            let secondHalfHeader = `<tr><th>플레이어</th><th>점수</th><th>상세</th></tr>`;
+            secondHalfResultsTable.innerHTML += secondHalfHeader;
+            players.forEach(player => {
+                const totalScore = player.scores.slice(9, 18).reduce((acc, score) => acc + score, 0);
+                const details = player.scores.slice(9, 18).join(', ');
+                secondHalfResultsTable.innerHTML += `<tr><td>${player.name}</td><td>${totalScore}</td><td>${details}</td></tr>`;
+            });
+
+            // 총합 결과 표시
+            let totalHeader = `<tr><th>플레이어</th><th>총합 점수</th></tr>`;
+            totalResultsTable.innerHTML += totalHeader;
+
+            players.forEach(player => {
+                const totalScore = player.scores.reduce((acc, score) => acc + score, 0);
+                totalResultsTable.innerHTML += `<tr><td>${player.name}</td><td>${totalScore}</td></tr>`;
+            });
+        }
+
+        // 결과 버튼 클릭 시 결과 업데이트
+        document.getElementById('show-results').addEventListener('click', updateResults);
+    </script>
+</body>
+</html>
