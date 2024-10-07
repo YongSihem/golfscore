@@ -14,28 +14,6 @@
 </head>
 <body>
     <h1>골프 스코어 입력</h1>
-        <div id="handicap-input">
-        <h2>핸디캡 입력</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>플레이어</th>
-                    <th>핸디캡</th>
-                </tr>
-            </thead>
-            <tbody>
-                <script>
-                    for (let i = 0; i < 6; i++) {
-                        document.write(`<tr>
-                            <td>${players[i].name}</td>
-                            <td><input type="number" id="handicap-${i}" value="0"></td>
-                        </tr>`);
-                    }
-                </script>
-            </tbody>
-        </table>
-    </div>
-
     <div id="score-input">
         <h2>스코어 입력</h2>
         <table>
@@ -91,7 +69,28 @@
             </tbody>
         </table>
     </div>
-
+    
+        <div id="handicap-input">
+        <h2>핸디캡 입력</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>플레이어</th>
+                    <th>핸디캡</th>
+                </tr>
+            </thead>
+            <tbody>
+                <script>
+                    for (let i = 0; i < 6; i++) {
+                        document.write(`<tr>
+                            <td>${players[i].name}</td>
+                            <td><input type="number" id="handicap-${i}" value="0"></td>
+                        </tr>`);
+                    }
+                </script>
+            </tbody>
+        </table>
+    </div>
     
     <button id="show-results">결과 보기</button>
     <h2>중간 집계 및 결과</h2>
