@@ -82,4 +82,4 @@ function updateResults() {
 }
 
 // 결과 버튼 클릭 시 결과 업데이트
-document.getElementById('show-results').addEventListener('click', updateResults);
+document.getElementById('show
