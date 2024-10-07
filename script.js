@@ -1,23 +1,11 @@
-let players = [];
-
-// 사용자 이름 저장
-document.getElementById('savePlayers').addEventListener('click', () => {
-    players = [];
-    for (let i = 1; i <= 6; i++) {
-        const playerName = document.getElementById(`player${i}`).value;
-        if (playerName) {
-            players.push({ name: playerName, scores: Array(18).fill(0) });
-            document.getElementById(`${playerName}Header`).textContent = playerName;
-        }
-    }
-
-    if (players.length > 0) {
-        document.getElementById('score-input').style.display = 'block';
-        document.getElementById('submit').style.display = 'block';
-    } else {
-        alert('최소 한 명의 플레이어 이름을 입력해야 합니다.');
-    }
-});
+let players = [
+    { name: "박두호", scores: Array(18).fill(0) },
+    { name: "민경호", scores: Array(18).fill(0) },
+    { name: "박병춘", scores: Array(18).fill(0) },
+    { name: "양태욱", scores: Array(18).fill(0) },
+    { name: "김재형", scores: Array(18).fill(0) },
+    { name: "전용선", scores: Array(18).fill(0) },
+];
 
 // 스코어 업데이트 함수
 function updateScore(button, change) {
@@ -49,7 +37,7 @@ document.getElementById('submit').addEventListener('click', () => {
     const scores = document.querySelectorAll('.score-display');
     scores.forEach(scoreDisplay => {
         const hole = scoreDisplay.dataset.hole - 1;
-        const playerIndex = scoreDisplay.dataset.player - 1;
+        const playerIndex = scoreDisplay.dataset.player;
         const score = parseInt(scoreDisplay.textContent);
 
         players[playerIndex].scores[hole] = score;
