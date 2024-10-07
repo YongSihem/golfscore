@@ -39,6 +39,10 @@ function updateScore(button, change) {
 
 // 로컬 스토리지에 점수 저장
 function saveScores() {
+    players.forEach((player, index) => {
+        const scores = Array.from(document.querySelectorAll(`.score-display[data-player="${index}"]`)).map(span => parseInt(span.textContent));
+        player.scores = scores;
+    });
     localStorage.setItem('golfScores', JSON.stringify(players.map(player => player.scores)));
 }
 
@@ -82,4 +86,4 @@ function updateResults() {
 }
 
 // 결과 버튼 클릭 시 결과 업데이트
-document.getElementById('show
+document.getElementById('show-results').addEventListener('click', updateResults);
