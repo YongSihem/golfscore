@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    updateResults();
 });
 
 // 스코어 업데이트 함수
@@ -31,17 +30,11 @@ function updateScore(button, change) {
     let currentScore = parseInt(scoreDisplay.textContent);
     currentScore += change;
 
-    // 스코어가 0 이상으로 제한
-    if (currentScore < 0) {
-        currentScore = 0;
-    }
-
     // 업데이트된 스코어 표시
     scoreDisplay.textContent = currentScore;
 
     // 로컬 스토리지에 점수 저장
     saveScores();
-    updateResults();
 }
 
 // 로컬 스토리지에 점수 저장
@@ -78,3 +71,6 @@ function updateResults() {
 
     resultsDiv.innerHTML += `<h3>총합 결과</h3><p>${totalResults.join('</p><p>')}</p>`;
 }
+
+// 결과 버튼 클릭 시 결과 업데이트
+document.getElementById('show-results').addEventListener('click', updateResults);
