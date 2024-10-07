@@ -14,31 +14,19 @@
 </head>
 <body>
     <h1>골프 스코어 입력</h1>
-    
-    <div id="players">
-        <!-- 플레이어 이름 입력 필드 -->
-        <h2>플레이어 이름 입력</h2>
-        <input type="text" placeholder="플레이어 1 이름" id="player1">
-        <input type="text" placeholder="플레이어 2 이름" id="player2">
-        <input type="text" placeholder="플레이어 3 이름" id="player3">
-        <input type="text" placeholder="플레이어 4 이름" id="player4">
-        <input type="text" placeholder="플레이어 5 이름" id="player5">
-        <input type="text" placeholder="플레이어 6 이름" id="player6">
-        <button id="savePlayers">이름 저장</button>
-    </div>
 
-    <div id="score-input" style="display: none;">
+    <div id="score-input">
         <h2>스코어 입력</h2>
         <table>
             <thead>
                 <tr>
                     <th>홀</th>
-                    <th id="player1Header"></th>
-                    <th id="player2Header"></th>
-                    <th id="player3Header"></th>
-                    <th id="player4Header"></th>
-                    <th id="player5Header"></th>
-                    <th id="player6Header"></th>
+                    <th>박두호</th>
+                    <th>민경호</th>
+                    <th>박병춘</th>
+                    <th>양태욱</th>
+                    <th>김재형</th>
+                    <th>전용선</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +35,11 @@
                     for (let i = 1; i <= 18; i++) {
                         document.write(`<tr>
                             <td>${i}</td>
+                            <td>
+                                <button class="score-button" data-hole="${i}" data-player="0" onclick="updateScore(this, -1)">-1</button>
+                                <span class="score-display" data-hole="${i}" data-player="0">0</span>
+                                <button class="score-button" data-hole="${i}" data-player="0" onclick="updateScore(this, 1)">+1</button>
+                            </td>
                             <td>
                                 <button class="score-button" data-hole="${i}" data-player="1" onclick="updateScore(this, -1)">-1</button>
                                 <span class="score-display" data-hole="${i}" data-player="1">0</span>
@@ -72,11 +65,6 @@
                                 <span class="score-display" data-hole="${i}" data-player="5">0</span>
                                 <button class="score-button" data-hole="${i}" data-player="5" onclick="updateScore(this, 1)">+1</button>
                             </td>
-                            <td>
-                                <button class="score-button" data-hole="${i}" data-player="6" onclick="updateScore(this, -1)">-1</button>
-                                <span class="score-display" data-hole="${i}" data-player="6">0</span>
-                                <button class="score-button" data-hole="${i}" data-player="6" onclick="updateScore(this, 1)">+1</button>
-                            </td>
                         </tr>`);
                     }
                 </script>
@@ -84,7 +72,7 @@
         </table>
     </div>
 
-    <button id="submit" style="display: none;">제출</button>
+    <button id="submit">제출</button>
     <h2>결과</h2>
     <div id="results"></div>
 
