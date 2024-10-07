@@ -8,11 +8,13 @@ const players = [
 ];
 
 // 페이지 로드 시 점수 복원
-document.addEventListener('DOMContentLoaded', () => {
-    const storedScores = JSON.parse(localStorage.getItem('golfScores'));
-    if (storedScores) {
+document.addEventListener('DOMContentLoaded', async () => {
+    const storedScores = await loadScores();
+    if (storedScores.length > 0) {
+        // 가장 최근의 점수만 로드
+        const latestScores = storedScores[storedScores.length - 1].players;
         players.forEach((player, index) => {
-            player.scores = storedScores[index];
+            player.scores = latestScores[index];
             for (let i = 0; i < player.scores.length; i++) {
                 document.querySelector(`.score-display[data-hole="${i + 1}"][data-player="${index}"]`).textContent = player.scores[i];
             }
@@ -76,12 +78,19 @@ function updateResults() {
     });
 
     // 총합 결과 표시
-    let totalHeader = `<tr><th>플레이어</th><th>총합 점수</th><th>상세</th></tr>`;
+    let totalHeader = `<tr><th>플레이어</th><th>총합 점수</th><th>핸디캡</th><th>최종 점수</th><th>순위</th></tr>`;
     totalResultsTable.innerHTML += totalHeader;
-    players.forEach(player => {
-        const totalScore = player.scores.reduce((acc, score) => acc + score, 0) + 72; // 최종 점수 계산
-        const details = player.scores.reduce((acc, score) => acc + score, 0);
-        totalResultsTable.innerHTML += `<tr><td>${player.name}</td><td>${totalScore}</td><td>${details}</td></tr>`;
+
+    const totalScores = players.map((player, index) => {
+        const totalScore = player.scores.reduce((acc, score) => acc + score, 0) + parseInt(document.getElementById(`handicap-${index}`).value) + 72; // 핸디캡 + 72
+        return { name: player.name, finalScore: totalScore };
+    });
+
+    // 점수 순위 매기기
+    totalScores.sort((a, b) => a.finalScore - b.finalScore);
+
+    totalScores.forEach((player, index) => {
+        totalResultsTable.innerHTML += `<tr><td>${player.name}</td><td>${player.finalScore - 72}</td><td>${document.getElementById(`handicap-${index}`).value}</td><td>${player.finalScore}</td><td>${index + 1}</td></tr>`;
     });
 }
 
