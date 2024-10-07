@@ -25,12 +25,21 @@
             </thead>
             <tbody>
                 <script>
-                    for (let i = 0; i < 6; i++) {
+                    const players = [
+                        { name: "박두호" },
+                        { name: "민경호" },
+                        { name: "박병춘" },
+                        { name: "양태욱" },
+                        { name: "김재형" },
+                        { name: "전용선" },
+                    ];
+
+                    players.forEach((player, index) => {
                         document.write(`<tr>
-                            <td>${players[i].name}</td>
-                            <td><input type="number" id="handicap-${i}" value="0"></td>
+                            <td>${player.name}</td>
+                            <td><input type="number" id="handicap-${index}" value="0"></td>
                         </tr>`);
-                    }
+                    });
                 </script>
             </tbody>
         </table>
@@ -90,6 +99,7 @@
             </tbody>
         </table>
     </div>
+
 
 
     <button id="show-results">결과 보기</button>
