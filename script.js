@@ -1,3 +1,25 @@
+let players = [];
+
+// 사용자 이름 저장
+document.getElementById('savePlayers').addEventListener('click', () => {
+    players = [];
+    for (let i = 1; i <= 6; i++) {
+        const playerName = document.getElementById(`player${i}`).value;
+        if (playerName) {
+            players.push({ name: playerName, scores: Array(18).fill(0) });
+            document.getElementById(`${playerName}Header`).textContent = playerName;
+        }
+    }
+
+    if (players.length > 0) {
+        document.getElementById('score-input').style.display = 'block';
+        document.getElementById('submit').style.display = 'block';
+    } else {
+        alert('최소 한 명의 플레이어 이름을 입력해야 합니다.');
+    }
+});
+
+// 스코어 업데이트 함수
 function updateScore(button, change) {
     const hole = button.dataset.hole;
     const player = button.dataset.player;
@@ -18,18 +40,10 @@ function updateScore(button, change) {
     scoreDisplay.textContent = currentScore;
 }
 
+// 제출 버튼 클릭 시 결과 표시
 document.getElementById('submit').addEventListener('click', () => {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ''; // 이전 결과 초기화
-
-    // 플레이어 이름 가져오기
-    const players = [];
-    for (let i = 1; i <= 6; i++) {
-        const playerName = document.getElementById(`player${i}`).value;
-        if (playerName) {
-            players.push({ name: playerName, scores: Array(18).fill(0) });
-        }
-    }
 
     // 각 홀의 스코어 가져오기
     const scores = document.querySelectorAll('.score-display');
