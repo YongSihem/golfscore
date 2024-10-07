@@ -6,10 +6,10 @@
     <title>골프 스코어 집계</title>
     <style>
         body { font-family: Arial, sans-serif; }
-        .score-table { margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
         .score-button { width: 30px; }
+        #results { margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -73,7 +73,14 @@
 
     <button id="show-results">결과 보기</button>
     <h2>중간 집계 및 결과</h2>
-    <div id="results"></div>
+    <div id="results">
+        <h3>1~9홀 중간 집계</h3>
+        <table id="first-half-results"></table>
+        <h3>10~18홀 결과</h3>
+        <table id="second-half-results"></table>
+        <h3>총합 결과</h3>
+        <table id="total-results"></table>
+    </div>
 
     <script src="script.js"></script>
 </body>
